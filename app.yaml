@@ -1,0 +1,22 @@
+application: secret-voice-586
+version: 2
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+- url: /(.*\.(json|js|css|gif|png|jpg))$
+  static_files: \1
+  upload: .*\.(json|js|css|gif|png|jpg)$
+- url: /.*
+  script: expenses.application
+  login: required
+      
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
