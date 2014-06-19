@@ -34,5 +34,5 @@ people who needed it, including families in financial crisis that had helped in
 my volunteering work in the Paamonim organization.
 After a couple of times where I encountered people who just did not have the money for
 buying MS Office Pro to have MS Access, I understood this called for a web-based
-app. I also wanted to have my expenses tracking eaily accessible from my mobile,
+app. I also wanted to have my expenses tracking easily accessible from my mobile,
 although I'm still a long way from getting there.
