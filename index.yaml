@@ -10,6 +10,22 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: ExpenseType
+  ancestor: yes
+  properties:
+  - name: description
+
+- kind: ExpenseType
+  ancestor: yes
+  properties:
+  - name: expense_type
+
+- kind: ExpenseType
+  ancestor: yes
+  properties:
+  - name: type_id
+    direction: desc
+
 - kind: Stamp
   ancestor: yes
   properties:

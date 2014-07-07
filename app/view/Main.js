@@ -4,8 +4,7 @@ Ext.define('expenses.view.Main', {
         'Ext.tab.Panel',
         'Ext.Msg',
         'Ext.layout.container.Border',
-        'Ext.form.Label',
-        'expenses.view.accountsGrid'
+        'Ext.form.Label'
     ],
     
     xtype: 'app-main',
@@ -37,6 +36,11 @@ Ext.define('expenses.view.Main', {
             title: 'Expenses List',
             xtype: 'expensesgrid',
             id: "expenses-grid"            
+        }
+        ,{
+            title: 'Expense Types',
+            xtype: 'expensetypesgrid',
+            id: "expense-types-grid"            
         }]
     }]
 });

@@ -1,11 +1,15 @@
 Ext.define('expenses.Application', {
+    extend: 'Ext.app.Application',
     name: 'expenses',
     requires:[
-        'Ext.Msg'
+        'Ext.Msg',
+        'Ext.data.JsonStore',
+        'Ext.grid.plugin.CellEditing',
+        'Ext.data.proxy.Rest'
     ],
     
     
-    active_account: {name: "", owner: ""},
+    active_account: {name: '', owner: ''},
     activeAccount: function () {
         return active_account;
     },
@@ -19,19 +23,29 @@ Ext.define('expenses.Application', {
         }
         // XXX - open selection dialog
         active_account = accounts[0];
-            Ext.Msg.alert("Application launch", "Expenses app launched");
+            Ext.Msg.alert('Application launch', 'Expenses app launched');
         Ext.getCmp('app-main').setAccountDetails(user, active_account);
     },
 
-    extend: 'Ext.app.Application',
+    get_active_account: function()
+    {
+        return active_account;
+    },
 
+    models: [
+        'ExpenseType'
+    ],
+    
     views: [
-        // TODO: add views here
+        'AccountsGrid',
+        'ExpensesGrid',
+        'ExpenseTypesGrid'
     ],
 
     controllers: [
-        "Expenses",
-        "Accounts"
+        'Expenses',
+        'ExpenseTypes',
+        'Accounts'
     ],
 
     stores: [
