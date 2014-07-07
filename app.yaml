@@ -13,7 +13,6 @@ handlers:
 - url: /.*
   script: expenses.application
   login: required
-      
 
 libraries:
 - name: webapp2
