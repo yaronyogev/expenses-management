@@ -2,8 +2,7 @@ Ext.define('expenses.view.Viewport', {
     extend: 'Ext.container.Viewport',
     requires:[
         'Ext.layout.container.Fit',
-        'expenses.view.Main',
-        'expenses.view.expensesGrid'
+        'expenses.view.Main'
     ],
 
     layout: {
