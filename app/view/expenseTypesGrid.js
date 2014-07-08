@@ -54,7 +54,7 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
             width: 50,
             items: [
                {
-                    icon: 'resources/icons/delete.png',
+                    icon: 'app/images/delete.png',
                     tooltip: 'Delete',
                     handler: function(grid, row) {
                          var store = grid.getStore();
