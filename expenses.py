@@ -12,6 +12,7 @@ import webapp2
 from models.account import *
 from models.expenses import Expense
 from controllers.accountController import AccountHandler
+from controllers.expenseTypesController import ExpenseTypesController
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -24,6 +25,7 @@ EXTJS_HEAD_DEV = """
     <script src="ext/ext-dev.js"></script>
     <script src="bootstrap.js"></script>
     <script src="app.js"></script>
+    <script src="app/ext_common.js"></script>
     """
 
 
@@ -42,23 +44,23 @@ class MainPage(webapp2.RequestHandler):
         if (len(membership_list) ==  0):
             # no accounts for this user yet, create one with user as account owner
             is_new_account = True
-            key = ndb.Key('Account', email)
+            key = account_key("My Expenses", email)
             account = Account(parent = key)
             account.name = "My Expenses"
             account.owner = email
-            account_key = account.put()
-            account_user = AccountUser(parent = account_key)
+            parent_account_key = account.put()
+            account_user = AccountUser(parent = parent_account_key)
             account_user.user_name = email
-            account_user.account = account_key
+            account_user.account = parent_account_key
             account_user.put()
             account.user = email
             accounts_data = [ {'name': account.name, 'owner': account.owner, 'user_name': email} ];
         else:
             accounts_data = []
             for account_user in membership_list:
-                account = account_user.account.get()
-                account_data = {'name': account.name, 'owner': account.owner, \
-                    'user_name': account_user.user_name}
+                parent_account_key = account_user.key.parent()  
+                acc = parent_account_key.get()
+                account_data = {'name': acc.name, 'owner': acc.owner, 'user_name': email}
                 accounts_data.append(account_data)
         template_values = {
             'extjs_head': EXTJS_HEAD_DEV,
@@ -104,6 +106,8 @@ application = webapp2.WSGIApplication([
     ('/users_list', AccountHandler),
     ('/types_list', AccountHandler),
     ('/methods_list', AccountHandler),
-    ('/expenses_list', AccountHandler)
+    ('/expenses_list', AccountHandler),
+    ('/expense_types', ExpenseTypesController),
+    ('/expense_types(/\d+)?', ExpenseTypesController)
 ], debug=True)
 
