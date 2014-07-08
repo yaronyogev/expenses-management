@@ -106,3 +106,6 @@ sass/
 ext/
 
 *.$old
+index_extjs.html
+resources/
+
