@@ -3,7 +3,6 @@ import json
 import logging
 
 from google.appengine.api import users
-# XXX from google.appengine.ext.db import 
 
 from models.types import *
 from models.account import *
@@ -22,10 +21,9 @@ class ExpenseTypesController(webapp2.RequestHandler):
         if action == 'delete':
             self.delete_type(account, self.request.get('id'))
         else:
-            self.invalid_value('unknown action specified')
+            self.handle_update()
 
     def get(self):
-        logging.info(self.request)
         user = users.get_current_user()
         if user == None:
             self.invalid_value('not logged in')
@@ -49,7 +47,6 @@ class ExpenseTypesController(webapp2.RequestHandler):
         for et in types:
             types_list.append({ \
                 'id': et.type_id, \
-                'entity_id': et.key.id(),
                 'name': et.description, \
                 'active': et.active})
         self.response.out.write(json.dumps({ \
@@ -58,8 +55,7 @@ class ExpenseTypesController(webapp2.RequestHandler):
             'account_owner': account_owner, \
             'rows': types_list}))
 
-    def put(self, args):
-        payload = json.loads(self.request.body)
+    def handle_update(self):
         req = self.request
         account_name = req.get('account_name')
         account_owner = req.get('account_owner')
@@ -68,10 +64,26 @@ class ExpenseTypesController(webapp2.RequestHandler):
             self.invalid_value(account_found)
             return
         account = account_key(account_name, account_owner)
-        if payload['id'] == 0:
+        name = req.get('name')
+        if name == None or name == '':
+            self.invalid_value('name must be specified')
+            return
+        is_active = req.get('active') == 'true'
+        type_id = req.get('id')
+        if type_id == None:
+            self.invalid_value('id not specified')
+            return
+        else:
+            try:
+                type_id = int(type_id);
+            except:
+                self.invalid_value('id')
+                return
+        et = None
+        if type_id == 0:
             et = ExpenseType(parent=account)
-            et.description = payload['name']
-            et.active = payload['active']
+            et.description = req.get('name')
+            et.active = is_active
             # find the largest type ID x for this account, and return new type ID that is x+1
             q = ExpenseType.query(ancestor=account).order(-ExpenseType.type_id)
             results = q.fetch(1)
@@ -79,36 +91,33 @@ class ExpenseTypesController(webapp2.RequestHandler):
             for old in results:
                 new_id = old.type_id + 1
             et.type_id = new_id
-            try:
-                et.put()
-                resp = json.dumps(({'success': 1, 'id': et.id, 'entity_id': et.entity_id}))
-                self.response.out.write(resp)
-            except:
-                self.operation_failed('unable to write expense type record')
+            et.put()
+            resp = json.dumps(({'success': 1, 'id': new_id}))
+            self.response.out.write(resp)
         else:
-            type_id = payload['id']
-            et = expense_type_get_by_type_id(account, type_id)
+            record_to_change = None
             for et in ExpenseType.query(ancestor=account).fetch():
-                if et.type_id == int(type_id):
-                    et.description = payload['name']
-                    et.active = payload['active']
-                    et.put()
-                    resp = json.dumps(({'success': 1, 'id': et.type_id}))
-                    self.response.out.write(resp)
-                    return
-            else:
-                self.invalid_value("unable to find type with type_id=" + type_id)
+                if et.type_id == type_id:
+                    record_to_change = et
+                else:
+                    if et.description == name:
+                        self.invalid_value('expense type exists: ' + name)
+                        return
+            if record_to_change == None:
+                self.invalid_value("unable to find type with type_id=" + req.get('id'))
+                return
+            record_to_change.description = req.get('name')
+            record_to_change.active = is_active
+            record_to_change.put()
+            resp = json.dumps(({'success': 1, 'id': record_to_change.type_id}))
+            self.response.out.write(resp)
+            return
         
     def delete_type(self, account, type_id):
-        logging.info('delete_type: got id %s', type_id)
         et = expense_type_get_by_type_id(account, type_id)
         if et != None:
-            try:
-                et.delete()
-            except:
-                self.operation_failed('Unable to delete expense type')
-                return
-            self.response.out.write(json.dumps(({'success': 0})))
+            et.key.delete()
+            self.response.out.write(json.dumps(({'success': 1, 'id': type_id})))
         else:
             self.invalid_value('expense type ID not found')
         
