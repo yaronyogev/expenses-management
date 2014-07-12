@@ -7,7 +7,7 @@ Ext.define('Account', {
      ]
 });
 
-Ext.define('expenses.view.accountsGrid', {
+Ext.define('expenses.view.AccountsGrid', {
     extend: 'Ext.grid.Panel',
     xtype: 'accountsgrid',
     store: Ext.create('Ext.data.JsonStore', {
