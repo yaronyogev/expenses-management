@@ -5,6 +5,8 @@ Ext.define('expenses.Application', {
         'Ext.Msg',
         'Ext.data.JsonStore',
         'Ext.grid.plugin.CellEditing',
+        'Ext.grid.column.Action',
+        'Ext.grid.column.CheckColumn',
         'Ext.data.proxy.Rest'
     ],
     
