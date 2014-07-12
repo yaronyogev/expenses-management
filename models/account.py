@@ -32,10 +32,8 @@ def find_account(request):
         Account.name==account_name)
     accounts = accounts_query.fetch(1)
     for account in accounts:
-        logging.info('account entry: %s', account)
         account_users = AccountUser.query(ancestor=account_key(account_name, account_owner))
         for entry in account_users:
-            logging.info('account user entry: %s', entry)
             if (entry.user_name == account_user_name):
                 return account
         return 'user not found'
