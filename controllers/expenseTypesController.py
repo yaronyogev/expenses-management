@@ -20,6 +20,8 @@ class ExpenseTypesController(webapp2.RequestHandler):
         action = self.request.get('action')
         if action == 'delete':
             self.delete_type(account, self.request.get('id'))
+        elif action == 'upload_csv':
+            self.upload_csv(account)
         else:
             self.handle_update()
 
@@ -120,6 +122,9 @@ class ExpenseTypesController(webapp2.RequestHandler):
             self.response.out.write(json.dumps(({'success': 1, 'id': type_id})))
         else:
             self.invalid_value('expense type ID not found')
+        
+    def upload_csv(self, account):
+        self.response.out.write(json.dumps(({'success': 0, 'errors': 'upload_csv() not iomplemented yet'})))
         
     def invalid_value(self, field):
         self.response.out.write(json.dumps(({'success': 0, 'errors': 'Invalid value recieved: ' + field})))
