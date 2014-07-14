@@ -94,7 +94,14 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
         }
     ],
     tbar: [
-          {xtype: 'button', text: 'Add Expense Type', itemId: "addexpensetype"}
+          {xtype: 'button', text: 'Add Expense Type', itemId: "addexpensetype"},
+          {
+              xtype: 'button',
+              text: 'Load From File',
+              handler: function () {
+                  types_grid.upload_csv();
+              }
+          }
     ],
     
     plugins: [
@@ -193,6 +200,114 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
              failure: handle_request_failure
          });
          return true;
-     }
+     },
+     
+     upload_csv: function ()
+     {
+          var win = Ext.getCmp("csv_upload_window");
+          if (win) {
+               win.show();
+               return;
+          }
+          var form_buttons =
+          [
+           {
+               text: "Upload CSV file",
+               icon: "app/images/accept.png",
+               formBind: true,
+               handler: types_grid.do_file_upload
+           },
+           {
+               text: "Clear",
+               tooltip: "Clear selected file",
+               handler: function () {
+                    this.up("form").getForm().reset();
+               }
+           },
+           {
+               text: "Close",
+               icon: "app/images/cancel.png",
+               handler: function () {
+                    Ext.getCmp("csv_upload_window").close();
+               }
+           }
+          ];
+          var form_items = [{
+              xtype: "filefield",
+              id: "csv_file",
+              name: "csv_file",
+              width: 500,
+              fieldLabel: "File",
+              allowBlank: false,
+              blankText: "Please use the 'Browse' button to select a file"
+          }];
+          var win_cfg = {
+              title: "Load expense types from CSV file",
+              id: "csv_upload_window",
+              layout: "fit",
+              items: [{
+                  xtype: "form",
+                  id: "csv_upload_form",
+                  method: "POST",
+                  defaults: {width: 600, labelWidth: 75},
+                  autoHeight: true,
+                  maxHeight: 150,
+                  autoWidth: true,
+                  items: form_items,
+                  border: false,
+                  bodyStyle: "padding: 5px;",
+                  buttonAlign: "center",
+                  buttons: form_buttons,
+                  listeners: {
+                      afterrender: function(form) {
+                          form.getForm().isValid();
+                      }
+                  }
+              }]
+          };
+          win = Ext.widget("window", win_cfg);
+          win.show();
+     },
 
+     do_file_upload : function () {
+         var form = this.up("form").getForm();
+         var fn = form.findField('csv_file').getRawValue();
+         var post_params = form.getFieldValues();
+         post_params.action = 'upload_csv';
+         post_params.account_name = accounts[0].name;
+         post_params.account_owner = accounts[0].owner;
+         post_params.account_user = user;
+         Ext.getCmp("csv_upload_window").hide();
+         set_cur_mb(Ext.Msg.wait("Uploading file - please wait..", "Uploading"));
+         form.submit({
+             url: "/expense_types",
+             params: post_params,
+             success: function (form, response) {
+                 mb_hide();
+                 var json_response = Ext.JSON.decode(response.response.responseText);
+                 if (json_response.success) {
+                     var attachments_grid = Ext.getCmp("attachments_grid");
+                     attachments_grid.expand();
+                     attachments_grid.getStore().load();
+                     set_delta_ts(json_response.delta_ts);
+                     Ext.Msg.alert({
+                         title: "Types file loaded",
+                         msg: "Loaded expense types from  file " + json_response.file
+                     });
+                 }
+                 else {
+                     // failure processing request
+                     Ext.Msg.alert("Load failed",
+                         "Failed to load types from " + result.file + ": " +
+                         get_json_err_text(json_response));
+                 }
+
+             },
+             failure: function(form, ajax_response) {
+                 var win = Ext.getCmp("csv_upload_window");
+                 win.destroy();
+                 handle_form_failure(form, ajax_response);
+             }
+         });
+     }
 });
