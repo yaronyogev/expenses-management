@@ -197,10 +197,12 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                  else
                  {
                      // failure processing request
-                     Ext.Msg.alert(get_json_err_text(json_response));
-                     this.getPlugin('cell_edit').startEditByPosition({
-                         row: e.row,
-                         column: cbcol.getIndex()});
+                     Ext.Msg.alert('Edit Failed',
+                         get_json_err_text(json_response),
+                         function () {
+                              this.getPlugin('cell_edit').startEditByPosition({
+                                  row: e.row, column: cbcol.getIndex()});
+                         });
                  }
              },
              failure: handle_request_failure
