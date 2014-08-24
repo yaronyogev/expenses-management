@@ -162,10 +162,11 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                  else
                  {
                      // failure processing request
-                     Ext.Msg.alert(get_json_err_text(json_response));
-                     cell_editing.startEditByPosition({
-                         row: e.row,
-                         column: e.column});
+                     Ext.Msg.alert('Edit Failed', get_json_err_text(json_response),
+                         function () {
+                              cell_editing.startEditByPosition({row: e.row,
+                                   column: e.column});
+                         });
                  }
              },
              failure: handle_request_failure
@@ -308,8 +309,8 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
              },
              failure: function(form, ajax_response) {
                  var win = Ext.getCmp('csv_upload_window');
-                     Ext.Msg.alert('Load failed 2',
-                         'Failed to load types from file - point 2');
+                     Ext.Msg.alert('Load failed',
+                         'Failed to load types from file');
                  win.destroy();
                  handle_form_failure(form, ajax_response);
              }
