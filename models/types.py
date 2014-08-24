@@ -18,5 +18,12 @@ def expense_type_get_by_type_id(account, type_id):
             return et
     else:
         return None
+    
+def expense_type_get_by_name(account, name):
+    for et in ExpenseType.query(ancestor=account).fetch():
+        if et.description == name:
+            return et
+    else:
+        return None
 
     
