@@ -11,8 +11,9 @@ import webapp2
 
 from models.account import *
 from models.expenses import Expense
+from controllers.UploadHandler import UploadHandler
 from controllers.accountController import AccountHandler
-from controllers.expenseTypesController import ExpenseTypesController
+from controllers.expenseTypesController import *
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -103,6 +104,7 @@ class MainPage(webapp2.RequestHandler):
 application = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/account/', AccountHandler),
+    ('/upload', UploadHandler),
     ('/users_list', AccountHandler),
     ('/types_list', AccountHandler),
     ('/methods_list', AccountHandler),

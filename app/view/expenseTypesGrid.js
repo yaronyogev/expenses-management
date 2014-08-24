@@ -280,16 +280,14 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
          Ext.getCmp("csv_upload_window").hide();
          set_cur_mb(Ext.Msg.wait("Uploading file - please wait..", "Uploading"));
          form.submit({
-             url: "/expense_types",
+             url: '/upload',
              params: post_params,
              success: function (form, response) {
                  mb_hide();
                  var json_response = Ext.JSON.decode(response.response.responseText);
                  if (json_response.success) {
-                     var attachments_grid = Ext.getCmp("attachments_grid");
-                     attachments_grid.expand();
-                     attachments_grid.getStore().load();
-                     set_delta_ts(json_response.delta_ts);
+                     types_grid.expand();
+                     types_grid.getStore().load();
                      Ext.Msg.alert({
                          title: "Types file loaded",
                          msg: "Loaded expense types from  file " + json_response.file
@@ -304,7 +302,9 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
 
              },
              failure: function(form, ajax_response) {
-                 var win = Ext.getCmp("csv_upload_window");
+                 var win = Ext.getCmp('csv_upload_window');
+                     Ext.Msg.alert('Load failed',
+                         'Failed to load types from file');
                  win.destroy();
                  handle_form_failure(form, ajax_response);
              }
