@@ -87,8 +87,11 @@ class ExpenseTypesController(webapp2.RequestHandler):
                 return
         et = None
         if type_id == 0:
+            if expense_type_get_by_name(account, name) != None:
+                self.invalid_value('expense type exists: ' + name)
+                return
             et = ExpenseType(parent=account)
-            et.description = req.get('name')
+            et.description = name
             et.active = is_active
             # find the largest type ID x for this account, and return new type ID that is x+1
             q = ExpenseType.query(ancestor=account).order(-ExpenseType.type_id)
@@ -110,9 +113,9 @@ class ExpenseTypesController(webapp2.RequestHandler):
                         self.invalid_value('expense type exists: ' + name)
                         return
             if record_to_change == None:
-                self.invalid_value("unable to find type with type_id=" + req.get('id'))
+                self.invalid_value("unable to find type with type_id=" + type_id)
                 return
-            record_to_change.description = req.get('name')
+            record_to_change.description = name
             record_to_change.active = is_active
             record_to_change.put()
             resp = json.dumps(({'success': 1, 'id': record_to_change.type_id}))
