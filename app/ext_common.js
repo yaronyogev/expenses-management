@@ -10,7 +10,8 @@ function get_json_err_text(json_response)
 /* handle case where call returned but with error code */
 function handle_ajax_call_failure(response, msg)
 {
-    Ext.Msg.alert("Failure", msg + " :<BR><BR>" + get_json_err_text(response));
+    Ext.Msg.alert(strs.get('failure'),
+        msg + " :<BR><BR>" + get_json_err_text(response));
 }
 
 function handle_request_failure(response) 
@@ -18,7 +19,7 @@ function handle_request_failure(response)
     // failure of HTTP request
     var message = response.isTimeout ? "timed out" :
         response.statusText;
-    Ext.Msg.alert("Failure", "Request failed: " + message);
+    Ext.Msg.alert(strs.get('failure'), strs.get('request_failed') + ': ' + message);
 }
 
 function handle_form_failure(form, ajax_response)

@@ -162,7 +162,8 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                  else
                  {
                      // failure processing request
-                     Ext.Msg.alert('Edit Failed', get_json_err_text(json_response),
+                     Ext.Msg.alert(strs.get('edit_failed'),
+                         get_json_err_text(json_response),
                          function () {
                               cell_editing.startEditByPosition({row: e.row,
                                    column: e.column});
@@ -197,11 +198,12 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                  else
                  {
                      // failure processing request
-                     Ext.Msg.alert('Edit Failed',
+                     Ext.Msg.alert(strs.get('edit_failed'),
                          get_json_err_text(json_response),
                          function () {
-                              this.getPlugin('cell_edit').startEditByPosition({
-                                  row: e.row, column: cbcol.getIndex()});
+                             this.getPlugin('cell_edit').startEditByPosition({
+                                 row: e.row,
+                                 column: cbcol.getIndex()});
                          });
                  }
              },
@@ -303,18 +305,17 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                  }
                  else {
                      // failure processing request
-                     Ext.Msg.alert('Load failed',
-                         'Failed to load types from ' + result.file + ': ' +
-                         get_json_err_text(json_response));
+                     Ext.Msg.alert(strs.get('load_failed'),
+                         strs.get('failed_load_from_file_x') + ' ' +
+                         result.file + ': ' + get_json_err_text(json_response));
                  }
 
              },
              failure: function(form, ajax_response) {
                  var win = Ext.getCmp('csv_upload_window');
-                     Ext.Msg.alert('Load failed',
-                         'Failed to load types from file');
+                     Ext.Msg.alert(strs.get('load_failed'),
+                         strs.get('failed_load_from_file_x') + ' ' + fn);
                  win.destroy();
-                 handle_form_failure(form, ajax_response);
              }
          });
      }

@@ -25,7 +25,6 @@ Ext.define('expenses.Strings', {
             /* Expense Types */
             'expense_types': 'Expense Types',
             'add_expense_type': 'Add Expense Type',
-            'load_from_file': 'Load From File...',
             'expense_type_grid_name': 'Name',
             'expense_type_grid_active': 'Active',
             'expense_type_blank': 'Enter name of expense type',
@@ -48,7 +47,13 @@ Ext.define('expenses.Strings', {
             /* Common */
             'upload_file': 'Upload File',
             'clear': 'clear',
-            'close': 'Close'
+            'close': 'Close',
+            'failure': 'Failure',
+            'edit_failed': 'Edit Failed',
+            'request_failed': 'Request Failed',
+            'load_from_file': 'Load From File...',
+            'load_failed': 'Load from file failed',
+            'failed_load_from_file_x': 'Failed to load types from'
         }
         , 'he-il':
         {
@@ -61,7 +66,6 @@ Ext.define('expenses.Strings', {
             /* Expense Types */
             'expense_types': 'סוגי הוצאות',
             'add_expense_type': 'הוסף סוג הוצאה',
-            'load_from_file': 'טען מקובץ...',
             'expense_type_grid_name': 'סוג',
             'expense_type_grid_active': 'פעיל',
             'expense_type_blank': 'הכנס שם עבור סוג הוצאה',
@@ -84,7 +88,13 @@ Ext.define('expenses.Strings', {
             /* Common */
             'upload_file': 'העלה קובץ',
             'clear': 'נקה הכל',
-            'close': 'סגור'
+            'close': 'סגור',
+            'failure': 'בעיה',
+            'edit_failed': 'עריכה נכשלה',
+            'request_failed': 'בקשה נכשלה',
+            'load_from_file': 'טען מקובץ...',
+            'load_failed': 'טעינה מקובץ נכשלה',
+            'failed_load_from_file_x': 'נכשלה טעינת הנתונים מקובץ'
         }
     }
 });
