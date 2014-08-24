@@ -25,7 +25,6 @@ Ext.define('expenses.Application', {
         }
         // XXX - open selection dialog
         active_account = accounts[0];
-            Ext.Msg.alert('Application launch', 'Expenses app launched');
         Ext.getCmp('app-main').setAccountDetails(user, active_account);
     },
 
