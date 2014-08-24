@@ -9,6 +9,10 @@ from models.account import *
 
 class ExpenseTypesController(webapp2.RequestHandler):
     def post(self):
+        user = users.get_current_user()
+        if user == None:
+            self.invalid_value('not logged in')
+            return
         req = self.request
         account_name = req.get('account_name')
         account_owner = req.get('account_owner')
