@@ -28,8 +28,16 @@ Ext.define('expenses.view.AccountsGrid', {
     },
     columns:
     [
-        {dataIndex: 'name', text: 'Name', width: 200},
-        {dataIndex: 'owner', text: 'Owner', flex: 1}
+        {
+            dataIndex: 'name',
+            text: strs.get('accounts_grid_name'),
+            width: 200
+        },
+        {
+            dataIndex: 'owner',
+            text: strs.get('accounts_grid_owner'),
+            flex: 1
+        }
     ],
     listeners: {
         render: function (grid)

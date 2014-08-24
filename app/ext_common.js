@@ -38,7 +38,7 @@ function handle_form_failure(form, ajax_response)
     var standard_ok = Ext.MessageBox.buttonText.ok; 
     var msg_config =
     {
-        title: "Error",
+        title: strs.get('error'),
         msg: err_msg,
         buttons: Ext.Msg.OK,
         icon: Ext.MessageBox.ERROR,

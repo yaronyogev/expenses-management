@@ -23,9 +23,10 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 #    <link rel="stylesheet" href="bootstrap.css">
 EXTJS_HEAD_DEV = """
     <link rel="stylesheet" href="ext/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css">
-    <script src="ext/ext-dev.js"></script>
+    <script src="ext/ext-all-rtl-debug.js"></script>
     <script src="bootstrap.js"></script>
     <script src="app.js"></script>
+    <script src="app/string_resources.js"></script>
     <script src="app/ext_common.js"></script>
     """
 

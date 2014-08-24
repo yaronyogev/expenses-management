@@ -31,11 +31,12 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
     [
         {
             dataIndex: 'name',
-            text: 'Name',
+            text: strs.get('expense_type_grid_name'),
             width: 300,
+            rtl: true,
             field: {
                xtype: 'textfield',
-               blankText: 'Enter name of expense type',
+               blankText: strs.get('expense_type_blank'),
                allowBlank: false,
                listeners: {
                     validateedit: function (cellediting, e) {
@@ -46,12 +47,12 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                          return true;
                     }
                },
-               validText: 'Name of expense type is missing'
+               validText: strs.get('expense_type_name_missing')
             }
         },
         {
             dataIndex: 'active',
-            text: 'Active',
+            text: strs.get('expense_type_grid_active'),
             xtype: 'checkcolumn',
             listeners: {
                 checkchange: function (cbcol, row, checked) {
@@ -94,14 +95,18 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
         }
     ],
     tbar: [
-          {xtype: 'button', text: 'Add Expense Type', itemId: "addexpensetype"},
-          {
-              xtype: 'button',
-              text: 'Load From File',
-              handler: function () {
-                  types_grid.upload_csv();
-              }
-          }
+        {
+            xtype: 'button',
+            text: strs.get('add_expense_type'),
+            itemId: 'addexpensetype'
+        },
+        {
+            xtype: 'button',
+            text: strs.get('load_from_file'),
+            handler: function () {
+                types_grid.upload_csv();
+            }
+        }
     ],
     
     plugins: [
@@ -204,7 +209,7 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
      
      upload_csv: function ()
      {
-          var win = Ext.getCmp("csv_upload_window");
+          var win = Ext.getCmp('csv_upload_window');
           if (win) {
                win.show();
                return;
@@ -212,51 +217,51 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
           var form_buttons =
           [
            {
-               text: "Upload CSV file",
-               icon: "app/images/accept.png",
+               text: strs.get('upload_file'),
+               icon: 'app/images/accept.png',
                formBind: true,
                handler: types_grid.do_file_upload
            },
            {
-               text: "Clear",
-               tooltip: "Clear selected file",
+               text: strs.get('clear'),
+               tooltip: 'Clear selected file',
                handler: function () {
-                    this.up("form").getForm().reset();
+                    this.up('form').getForm().reset();
                }
            },
            {
-               text: "Close",
-               icon: "app/images/cancel.png",
+               text: strs.get('close'),
+               icon: 'app/images/cancel.png',
                handler: function () {
-                    Ext.getCmp("csv_upload_window").close();
+                    Ext.getCmp('csv_upload_window').close();
                }
            }
           ];
           var form_items = [{
-              xtype: "filefield",
-              id: "csv_file",
-              name: "csv_file",
+              xtype: 'filefield',
+              id: 'csv_file',
+              name: 'csv_file',
               width: 500,
-              fieldLabel: "File",
+              fieldLabel: 'File',
               allowBlank: false,
               blankText: "Please use the 'Browse' button to select a file"
           }];
           var win_cfg = {
-              title: "Load expense types from CSV file",
-              id: "csv_upload_window",
-              layout: "fit",
+              title: strs.get('load_expense_types_from_csv_file'),
+              id: 'csv_upload_window',
+              layout: 'fit',
               items: [{
-                  xtype: "form",
-                  id: "csv_upload_form",
-                  method: "POST",
+                  xtype: 'form',
+                  id: 'csv_upload_form',
+                  method: 'POST',
                   defaults: {width: 600, labelWidth: 75},
                   autoHeight: true,
                   maxHeight: 150,
                   autoWidth: true,
                   items: form_items,
                   border: false,
-                  bodyStyle: "padding: 5px;",
-                  buttonAlign: "center",
+                  bodyStyle: 'padding: 5px;',
+                  buttonAlign: 'center',
                   buttons: form_buttons,
                   listeners: {
                       afterrender: function(form) {
@@ -265,20 +270,20 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                   }
               }]
           };
-          win = Ext.widget("window", win_cfg);
+          win = Ext.widget('window', win_cfg);
           win.show();
      },
 
      do_file_upload : function () {
-         var form = this.up("form").getForm();
+         var form = this.up('form').getForm();
          var fn = form.findField('csv_file').getRawValue();
          var post_params = form.getFieldValues();
          post_params.action = 'upload_csv';
          post_params.account_name = accounts[0].name;
          post_params.account_owner = accounts[0].owner;
          post_params.account_user = user;
-         Ext.getCmp("csv_upload_window").hide();
-         set_cur_mb(Ext.Msg.wait("Uploading file - please wait..", "Uploading"));
+         Ext.getCmp('csv_upload_window').hide();
+         set_cur_mb(Ext.Msg.wait('Uploading file - please wait..', 'Uploading'));
          form.submit({
              url: '/upload',
              params: post_params,
@@ -289,22 +294,22 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
                      types_grid.expand();
                      types_grid.getStore().load();
                      Ext.Msg.alert({
-                         title: "Types file loaded",
-                         msg: "Loaded expense types from  file " + json_response.file
+                         title: strs.get('types_file_loaded'),
+                         msg: strs.get('loaded_expense_types_from_file') + ' ' + fn
                      });
                  }
                  else {
                      // failure processing request
-                     Ext.Msg.alert("Load failed",
-                         "Failed to load types from " + result.file + ": " +
+                     Ext.Msg.alert('Load failed',
+                         'Failed to load types from ' + result.file + ': ' +
                          get_json_err_text(json_response));
                  }
 
              },
              failure: function(form, ajax_response) {
                  var win = Ext.getCmp('csv_upload_window');
-                     Ext.Msg.alert('Load failed',
-                         'Failed to load types from file');
+                     Ext.Msg.alert('Load failed 2',
+                         'Failed to load types from file - point 2');
                  win.destroy();
                  handle_form_failure(form, ajax_response);
              }

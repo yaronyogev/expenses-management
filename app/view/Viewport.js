@@ -5,6 +5,7 @@ Ext.define('expenses.view.Viewport', {
         'expenses.view.Main'
     ],
 
+    rtl: true,
     layout: {
         type: 'fit'
     },

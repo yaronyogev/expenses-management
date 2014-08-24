@@ -16,29 +16,29 @@ Ext.define('expenses.view.Main', {
     items: [{
         region: 'west',
         xtype: 'panel',
-        title: 'View',
+        title: strs.get('viewport_west_title'),
         width: 150
     },{
         region: 'center',
         xtype: 'tabpanel',
         items:[
         {
-            title: 'Accounts for user: ' + user,
+            title: strs.get('accounts_for_user'),
             xtype: "accountsgrid",
             itemId: "account-details",
             padding: "5px",
             items:
             [
-             {xtype: "label", text: "User: " + user}
+             {xtype: "label", text: strs.get('user') + ': ' + user}
             ]
         }
         ,{
-            title: 'Expenses List',
+            title: strs.get('expenses_list'),
             xtype: 'expensesgrid',
             id: "expenses-grid"            
         }
         ,{
-            title: 'Expense Types',
+            title: strs.get('expense_types'),
             xtype: 'expensetypesgrid',
             id: "expense-types-grid"            
         }]
