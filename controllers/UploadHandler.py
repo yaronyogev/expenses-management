@@ -8,7 +8,7 @@ from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.api import users
 
 from models.account import *
-from models.types import ExpenseType
+from models.ExpenseType import ExpenseType
 
 class UploadHandler(webapp2.RequestHandler):
     def post(self):
@@ -48,8 +48,8 @@ class UploadHandler(webapp2.RequestHandler):
                 logging.info("got row: type_id=%s, description=%s, active=%s", type_id, description, is_active)
                 desc = unicode(description, "cp1255")
                 et = ExpenseType(parent=account)
-                et.type_id = int(type_id)
-                et.description = desc
+                et.id = int(type_id)
+                et.name = desc
                 et.active = is_active
                 et.put()
                 row_count += 1
