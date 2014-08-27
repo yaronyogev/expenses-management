@@ -13,21 +13,11 @@ indexes:
 - kind: ExpenseType
   ancestor: yes
   properties:
-  - name: description
+  - name: id
+    direction: desc
 
 - kind: ExpenseType
   ancestor: yes
   properties:
-  - name: expense_type
+  - name: name
 
-- kind: ExpenseType
-  ancestor: yes
-  properties:
-  - name: type_id
-    direction: desc
-
-- kind: Stamp
-  ancestor: yes
-  properties:
-  - name: date
-    direction: desc
