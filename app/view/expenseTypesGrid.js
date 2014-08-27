@@ -3,7 +3,7 @@ var types_grid = null;
 Ext.define('expenses.view.ExpenseTypesGrid', {
     extend: 'Ext.grid.Panel',
     requires: [
-          'expenses.model.ExpenseType',
+          'expenses.store.ExpenseTypeStore',
           'Ext.grid.plugin.CellEditing',
           'Ext.selection.CellModel'
     ],
@@ -11,22 +11,7 @@ Ext.define('expenses.view.ExpenseTypesGrid', {
     xtype: 'expensetypesgrid',
     app: null,
     rtl: true,
-    store:
-    {
-        storeId: 'expense_types_store',
-        model: 'expenses.model.ExpenseType',
-        proxy:
-        {
-            type: 'ajax',
-            reader: {type: 'json', root: 'rows'},
-            url: '/expense_types',
-            extraParams: {
-               account_name: accounts[0].name,
-               account_owner: accounts[0].owner,
-               account_user: user
-            }
-        },
-    },
+    store: Ext.create('expenses.store.ExpenseTypeStore'),
     columns:
     [
         {
