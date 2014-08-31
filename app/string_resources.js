@@ -29,9 +29,6 @@ Ext.define('expenses.Strings', {
             'expense_type_grid_active': 'Active',
             'expense_type_blank': 'Enter name of expense type',
             'expense_type_name_missing': 'Name of expense type is missing',
-            'load_expense_types_from_csv_file': 'Load expense types from CSV file',
-            'types_file_loaded': 'Types file loaded',
-            'loaded_expense_types_from_file': 'Loaded expense types from file',
             /* Expenses */
             'expenses_list': 'Expenses List',
             'enter_expense': 'Enter Expense',
@@ -45,6 +42,12 @@ Ext.define('expenses.Strings', {
             /* Error handling */
             'error': 'Error',
             /* Common */
+            'load_from_csv_file': 'Load data from CSV file',
+            'browse_to_select_file': 'Please use the "Browse" button to select a file',
+            'uploading': 'Loading file',
+            'uploading_please_wait': 'Loading data from file - please wait...',
+            'types_file_loaded': 'Types file loaded',
+            'loaded_from_file': 'Sucessfully loaded data from file',
             'upload_file': 'Upload File',
             'clear': 'clear',
             'close': 'Close',
@@ -70,9 +73,6 @@ Ext.define('expenses.Strings', {
             'expense_type_grid_active': 'פעיל',
             'expense_type_blank': 'הכנס שם עבור סוג הוצאה',
             'expense_type_name_missing': 'שם סוג הוצאה חסר',
-            'load_expense_types_from_csv_file': 'טען סוגי הוצאות מתוך קובץ',
-            'types_file_loaded': 'טעינת קובץ סוגי הוצאות הושלמה',
-            'loaded_expense_types_from_file': 'סוגי הוצאות נטענו מקובץ',
             /* Expenses */
             'expenses_list': 'רישום הוצאות',
             'enter_expense': 'הכנס הוצאה',
@@ -86,6 +86,12 @@ Ext.define('expenses.Strings', {
             /* Error handling */
             'error': 'שגיאה',
             /* Common */
+            'load_from_csv_file': 'טען נתונים מקובץ',
+            'browse_to_select_file': 'לחץ על Browse כדי לבחור קובץ',
+            'uploading': 'טוען קובץ',
+            'uploading_please_wait': 'טוען נתונים מקובץ - אנא המתן...',
+            'types_file_loaded': 'טעינת קובץ הושלמה',
+            'loaded_from_file': 'המידע נטען בהצלחה מהקובץ',
             'upload_file': 'העלה קובץ',
             'clear': 'נקה הכל',
             'close': 'סגור',
