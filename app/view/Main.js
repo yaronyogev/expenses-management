@@ -39,8 +39,8 @@ Ext.define('expenses.view.Main', {
         }
         ,{
             title: strs.get('expense_types'),
-            xtype: 'expensetypesgrid',
-            id: "expense-types-grid"            
+            xtype: 'expensetypegrid',
+            id: "expense-type-grid"            
         }]
     }]
 });

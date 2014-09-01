@@ -40,7 +40,7 @@ Ext.define('expenses.Application', {
     views: [
         'AccountsGrid',
         'ExpensesGrid',
-        'ExpenseTypesGrid'
+        'ExpenseTypeGrid'
     ],
 
     controllers: [

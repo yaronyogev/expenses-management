@@ -13,7 +13,7 @@ Ext.define('expenses.controller.ExpenseTypes', {
         this.app = this.getApplication();
         this.model = Ext.create('expenses.model.ExpenseType');
         this.control({
-            'panel > expensetypesgrid': {
+            'panel > expensetypegrid': {
                 render: this.grid_rendered
             },
             '#addexpensetype': {
@@ -47,7 +47,7 @@ Ext.define('expenses.controller.ExpenseTypes', {
     },
 
     views: [
-        'ExpenseTypesGrid'
+        'ExpenseTypeGrid'
     ]
 
     
