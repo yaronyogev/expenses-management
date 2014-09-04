@@ -5,20 +5,20 @@ Ext.define('expenses.view.GeneralTypeGrid', {
           'Ext.selection.CellModel'
     ],
     rtl: true,
-    object_type_name: "",
-    get_object_type_name: function () {
-        return this.object_type_name;
+    object_type: null,
+    get_object_type: function () {
+        return this.object_type;
     },
     columns:
     [
         {
             dataIndex: 'name',
-            text: strs.get(this.object_type_name + '_grid_name'),
+            text: "undefined",
             width: 300,
             rtl: true,
             field: {
                xtype: 'textfield',
-               blankText: strs.get(this.object_type_name + '_blank'),
+               blankText: "undefined",
                allowBlank: false,
                listeners: {
                     validateedit: function (cellediting, e) {
@@ -29,12 +29,12 @@ Ext.define('expenses.view.GeneralTypeGrid', {
                          return true;
                     }
                },
-               validText: strs.get(this.object_type_name + '_name_missing')
+               validText: "undefined",
             }
         },
         {
             dataIndex: 'active',
-            text: strs.get(this.object_type_name + '_grid_active'),
+            text: "undefined",
             xtype: 'checkcolumn',
             listeners: {
                 checkchange: function (cbcol, row, checked) {
@@ -79,12 +79,12 @@ Ext.define('expenses.view.GeneralTypeGrid', {
     tbar: [
         {
             xtype: 'button',
-            text: strs.get('add_' + this.object_type_name),
-            itemId: 'add_' + this.object_type_name
+            text: strs.get('add_new_type'),
+            itemId: 'add_new_object_of_type'
         },
         {
             xtype: 'button',
-            text: strs.get('load_from_file'),
+            text: strs.get('load_from_csv_file'),
             handler: function () {
                 this.upload_csv();
             }
@@ -108,7 +108,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
         var cols = grid.columns, col, i;
         for (i = 0; i < cols.length; i++) {
             col = cols[i];
-            col.setText(strs.get(this.object_type_name + '_grid_' + col.dataIndex));
+            col.setText(strs.get(this.get_object_type() + '_grid_' + col.dataIndex));
         }
     },
         
@@ -276,7 +276,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
          var fn = form.findField('csv_file').getRawValue();
          var post_params = form.getFieldValues();
          post_params.action = 'upload_csv';
-         post_params.object_type = this.object_type_name;
+         post_params.object_type = this.get_object_type();
          post_params.account_name = accounts[0].name;
          post_params.account_owner = accounts[0].owner;
          post_params.account_user = user;
