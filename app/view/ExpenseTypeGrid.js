@@ -1,12 +1,12 @@
 Ext.define('expenses.view.ExpenseTypeGrid', {
     extend: 'expenses.view.GeneralTypeGrid',
-    object_type_name: 'expense_type',
     requires: [
           'expenses.store.ExpenseTypeStore',
           'Ext.grid.plugin.CellEditing',
           'Ext.selection.CellModel'
     ],
     id: 'expense_type_grid',
+    object_type: 'expense_type',
     xtype: 'expensetypegrid',
     url: '/expense_types',
     app: null,
