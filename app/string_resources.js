@@ -99,6 +99,7 @@ Ext.define('expenses.Strings', {
             /* Error handling */
             'error': 'שגיאה',
             /* Common */
+            'add_new_type': 'הוסף חדש',
             'load_from_csv_file': 'טען נתונים מקובץ',
             'browse_to_select_file': 'לחץ על Browse כדי לבחור קובץ',
             'uploading': 'טוען קובץ',

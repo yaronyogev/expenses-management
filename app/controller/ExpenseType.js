@@ -1,15 +1,12 @@
 Ext.define('expenses.controller.ExpenseType', {
     extend: 'expenses.controller.GeneralType',
-    requires: [
-        'expenses.model.ExpenseType'
-    ],
-    init: function () {
-        this.initTypeController();
+    modelClass: 'expenses.model.ExpenseType',
+    gridXtype: 'expensetypegrid',
+    
+    init: function (application) {
+        this.callParent([application]);
     },
-    config: {
-        modelClass: 'expenses.model.ExpenseType',
-        gridXtype: 'expensetypegrid',
-    },
+
     views: [
         'ExpenseTypeGrid'
     ],
