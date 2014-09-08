@@ -5,7 +5,6 @@ Ext.define('expenses.view.ExpenseTypeGrid', {
           'Ext.grid.plugin.CellEditing',
           'Ext.selection.CellModel'
     ],
-    id: 'expense_type_grid',
     object_type: 'expense_type',
     xtype: 'expensetypegrid',
     url: '/expense_types',
