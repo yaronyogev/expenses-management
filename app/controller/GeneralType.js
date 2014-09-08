@@ -49,5 +49,9 @@ Ext.define('expenses.controller.GeneralType', {
         });
         task.delay(50);
         return true;
+    },
+    
+    upload_csv: function() {
+        this.grid.upload_csv();
     }
 });
