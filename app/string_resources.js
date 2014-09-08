@@ -24,11 +24,18 @@ Ext.define('expenses.Strings', {
             'user': 'User',
             /* Expense Types */
             'expense_types': 'Expense Types',
-            'add_expense_type': 'Add Expense Type',
+            'add_new_type': 'Add',
             'expense_type_grid_name': 'Name',
             'expense_type_grid_active': 'Active',
             'expense_type_blank': 'Enter name of expense type',
             'expense_type_name_missing': 'Name of expense type is missing',
+            /* Persons */
+            'persons': 'Persons',
+            'add_person': 'Add Person',
+            'person_grid_name': 'Name',
+            'person_grid_active': 'Active',
+            'person_blank': 'Enter name of person',
+            'person_name_missing': 'Name of person is missing',
             /* Expenses */
             'expenses_list': 'Expenses List',
             'enter_expense': 'Enter Expense',
@@ -68,11 +75,17 @@ Ext.define('expenses.Strings', {
             'accounts_grid_owner': 'בעלים',
             /* Expense Types */
             'expense_types': 'סוגי הוצאות',
-            'add_expense_type': 'הוסף סוג הוצאה',
             'expense_type_grid_name': 'סוג',
             'expense_type_grid_active': 'פעיל',
             'expense_type_blank': 'הכנס שם עבור סוג הוצאה',
             'expense_type_name_missing': 'שם סוג הוצאה חסר',
+            /* Persons */
+            'persons': 'אנשים',
+            'add_person': 'הוסף אדם',
+            'person_grid_name': 'שם',
+            'person_grid_active': 'פעיל',
+            'person_blank': 'הכנס שם',
+            'person_name_missing': 'שם לא הוזן',
             /* Expenses */
             'expenses_list': 'רישום הוצאות',
             'enter_expense': 'הכנס הוצאה',

@@ -34,18 +34,21 @@ Ext.define('expenses.Application', {
     },
 
     models: [
-        'ExpenseType'
+        'ExpenseType',
+        'Person'
     ],
     
     views: [
         'AccountsGrid',
         'ExpensesGrid',
-        'ExpenseTypeGrid'
+        'ExpenseTypeGrid',
+        'PersonGrid'
     ],
 
     controllers: [
         'Expenses',
-        'ExpenseTypes',
+        'ExpenseType',
+        'Person',
         'Accounts'
     ],
 

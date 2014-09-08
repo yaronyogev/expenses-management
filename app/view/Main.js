@@ -31,16 +31,21 @@ Ext.define('expenses.view.Main', {
             [
              {xtype: "label", text: strs.get('user') + ': ' + user}
             ]
-        }
-        ,{
+        },
+        {
             title: strs.get('expenses_list'),
             xtype: 'expensesgrid',
             id: "expenses-grid"            
-        }
-        ,{
+        },
+        {
             title: strs.get('expense_types'),
             xtype: 'expensetypegrid',
             id: "expense-type-grid"            
+        },
+        {
+            title: strs.get('persons'),
+            xtype: 'persongrid',
+            id: "person-grid"            
         }]
     }]
 });

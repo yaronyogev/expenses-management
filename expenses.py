@@ -14,6 +14,7 @@ from models.expenses import Expense
 from controllers.UploadHandler import UploadHandler
 from controllers.accountController import AccountHandler
 from controllers.expenseTypesController import *
+from controllers.PersonController import *
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -111,6 +112,8 @@ application = webapp2.WSGIApplication([
     ('/methods_list', AccountHandler),
     ('/expenses_list', AccountHandler),
     ('/expense_types', ExpenseTypesController),
-    ('/expense_types(/\d+)?', ExpenseTypesController)
+    ('/expense_types(/\d+)?', ExpenseTypesController),
+    ('/persons', PersonController),
+    ('/persons(/\d+)?', PersonController)
 ], debug=True)
 

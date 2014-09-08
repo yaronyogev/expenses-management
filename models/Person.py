@@ -3,5 +3,5 @@ import logging
 
 from models.GeneralType import GeneralType
 
-class Person(ndb.Model):
+class Person(GeneralType):
     pass

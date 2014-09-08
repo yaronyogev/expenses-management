@@ -20,3 +20,14 @@ indexes:
   ancestor: yes
   properties:
   - name: name
+
+- kind: Person
+  ancestor: yes
+  properties:
+  - name: id
+    direction: desc
+
+- kind: Person
+  ancestor: yes
+  properties:
+  - name: name

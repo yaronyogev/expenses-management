@@ -9,6 +9,7 @@ from google.appengine.api import users
 
 from models.account import *
 from models.ExpenseType import ExpenseType
+from models.Person import Person
 
 class UploadHandler(webapp2.RequestHandler):
     def post(self):
@@ -21,11 +22,24 @@ class UploadHandler(webapp2.RequestHandler):
         account_owner = req.get('account_owner')
         account_found = find_account(self.request)
         if (type(account_found) == 'String'):
-            self.invalid_value(account_found)
+            self.invalid_value('account')
             return
         account = account_key(account_name, account_owner)
         raw_file = self.request.get('csv_file')
         self.process_csv(account, raw_file)
+
+    def get_new_entry(self, account):
+        new_entry = None
+        object_type = self.request.get('object_type')
+        if (object_type == 'expense_type'):
+            new_entry = ExpenseType(parent=account)
+        elif (object_type == 'person'):
+            new_entry = Person(parent=account)
+        else:
+            logging.info("get_new_entry(): got invalid object_type: %s", object_type)
+            self.invalid_value('object_type')
+        logging.info("get_new_entry(): returning entry %s", new_entry)
+        return new_entry
 
     def process_csv(self, account, file):
         f = file.splitlines()
@@ -47,11 +61,13 @@ class UploadHandler(webapp2.RequestHandler):
                     is_active = False
                 logging.info("got row: type_id=%s, description=%s, active=%s", type_id, description, is_active)
                 desc = unicode(description, "cp1255")
-                et = ExpenseType(parent=account)
-                et.id = int(type_id)
-                et.name = desc
-                et.active = is_active
-                et.put()
+                entry = self.get_new_entry(account)
+                if entry == None:
+                    return
+                entry.id = int(type_id)
+                entry.name = desc
+                entry.active = is_active
+                entry.put()
                 row_count += 1
         self.response.out.write(json.dumps(({'success': 1, 'msg': str(row_count) + ' rows were imported'})))
 
@@ -61,6 +77,9 @@ class UploadHandler(webapp2.RequestHandler):
             return True
         self.missing_field(field_name)
         return False
+        
+    def invalid_value(self, field):
+        self.response.out.write(json.dumps(({'success': 0, 'errors': 'Invalid value recieved: ' + field})))
         
     def missing_field(self, field):
         self.response.out.write(json.dumps(({'success': 0, 'errors': 'missing field in CSV file: ' + field})))
