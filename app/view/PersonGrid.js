@@ -5,7 +5,7 @@ Ext.define('expenses.view.PersonGrid', {
           'Ext.grid.plugin.CellEditing',
           'Ext.selection.CellModel'
     ],
-    id: 'person_grid',
+    //id: 'person_grid',
     object_type: 'person',
     xtype: 'persongrid',
     url: '/persons',
