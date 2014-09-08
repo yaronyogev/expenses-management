@@ -18,7 +18,8 @@ Ext.define('expenses.view.Main', {
         xtype: 'panel',
         title: strs.get('viewport_west_title'),
         width: 150
-    },{
+    },
+    {
         region: 'center',
         xtype: 'tabpanel',
         items:[
