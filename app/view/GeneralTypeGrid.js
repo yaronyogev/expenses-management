@@ -251,6 +251,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
               items: [{
                   xtype: 'form',
                   id: 'csv_upload_form',
+                  object_type: this.object_type,
                   method: 'POST',
                   defaults: {width: 600, labelWidth: 75},
                   autoHeight: true,
@@ -273,11 +274,12 @@ Ext.define('expenses.view.GeneralTypeGrid', {
      },
 
      do_file_upload : function () {
-         var form = this.up('form').getForm();
+         var form_ui = this.up('form'),
+             form = form_ui.getForm();
          var fn = form.findField('csv_file').getRawValue();
          var post_params = form.getFieldValues();
          post_params.action = 'upload_csv';
-         post_params.object_type = this.get_object_type();
+         post_params.object_type = form_ui.object_type;
          post_params.account_name = accounts[0].name;
          post_params.account_owner = accounts[0].owner;
          post_params.account_user = user;
