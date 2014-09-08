@@ -85,23 +85,24 @@ Ext.define('expenses.view.GeneralTypeGrid', {
         {
             xtype: 'button',
             text: strs.get('load_from_csv_file'),
-            handler: function () {
-                this.upload_csv();
-            }
+            itemId: 'load_from_csv_file'
         }
     ],
     
-    plugins: [
-        Ext.create('Ext.grid.plugin.CellEditing', {
-            pluginId: 'cell_edit',
-            clicksToEdit: 1,
-            listeners: {
-               edit: function (editor, e) {
-                    e.record.commit();
-               }
-            }
-        })
-    ],
+    initComponent: function () {
+        this.plugins = [
+            Ext.create('Ext.grid.plugin.CellEditing', {
+                pluginId: 'cell_edit',
+                clicksToEdit: 1,
+                listeners: {
+                    edit: function (editor, e) {
+                        e.record.commit();
+                    }
+                 }
+           })
+        ];
+        this.callParent();
+    },
     selModel: {selType: 'cellmodel'},
     
     setColLabels: function (grid) {
