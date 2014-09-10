@@ -8,7 +8,7 @@ from models.account import *
 
 class RequestController(webapp2.RequestHandler):
     account = None
-    
+
     def checkAccount(self):
         user = users.get_current_user()
         if user == None:
@@ -23,12 +23,12 @@ class RequestController(webapp2.RequestHandler):
         if (type(account_found) == 'String'):
             self.invalid_value(account_found)
             return False
-        
+
         # verify that access to this account is permitted to this user
         if self.account_user != user.email():
             self.invalid_value('user mismatch')
             return true
-        
+
         self.account = account_key(self.account_name, self.account_owner)
         return True
 
@@ -38,8 +38,12 @@ class RequestController(webapp2.RequestHandler):
             return;
         query = self.clsRef.query(ancestor=self.account).order(self.clsRef.name)
         start_offset = int(self.request.get('start'))
-        limit = int(self.request.get('limit'))
-        instances = query.fetch(limit, offset=start_offset)
+        limit = self.request.get('limit')
+        if limit=='':
+            instances = query.fetch()
+        else:
+            limit = int(limit)
+            instances = query.fetch(limit, offset=start_offset)
         list = []
         for i in instances:
             list.append({ \
@@ -108,7 +112,7 @@ class RequestController(webapp2.RequestHandler):
             resp = json.dumps(({'success': 1, 'id': record_to_change.id}))
             self.response.out.write(resp)
             return
-        
+
     def delete_instance(self, id):
         i = get_by_id(id)
         if p != None:
@@ -116,10 +120,10 @@ class RequestController(webapp2.RequestHandler):
             self.response.out.write(json.dumps(({'success': 1, 'id': id})))
         else:
             self.invalid_value('Delete failed: ID not found')
-        
+
     def invalid_value(self, field):
         self.response.out.write(json.dumps(({'success': 0, 'errors': 'Invalid value recieved: ' + field})))
-        
+
     def operation_failed(self, msg):
         self.response.out.write(json.dumps(({'success': 0, 'errors': 'Operation failed: ' + msg})))
 
@@ -128,7 +132,7 @@ class RequestController(webapp2.RequestHandler):
             if i.id == id:
                 return i
         return None
-        
+
     def get_by_name(self, name):
         for i in self.clsRef.query(ancestor=self.account).fetch():
             if i.name == name:

@@ -3,6 +3,8 @@ Ext.define('expenses.model.ExpenseType', {
      proxy: {
          type: 'rest',
          url: '/expense_types',
-         reader: {type: 'json', root: 'rows'}
+         reader: {type: 'json', root: 'rows'},
+         pageParam: undefined,
+         limitParam: undefined
      }
 });
