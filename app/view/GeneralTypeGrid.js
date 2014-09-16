@@ -38,7 +38,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
             xtype: 'checkcolumn',
             listeners: {
                 checkchange: function (cbcol, row, checked) {
-                    this.on_active_edit(cbcol, row, checked);
+                    this.up('grid').on_active_edit(cbcol, row, checked);
                 }
             }
         },
@@ -54,7 +54,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
                          var rec = store.getAt(row);
                          var conn = new Ext.data.Connection;
                          conn.request({
-                              url: this.store.getModel().getProxy().url,
+                              url: store.proxy.url,
                               params: {
                                   action: 'delete',
                                   id: rec.get('id'),
@@ -88,7 +88,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
             itemId: 'load_from_csv_file'
         }
     ],
-    
+
     initComponent: function () {
         this.plugins = [
             Ext.create('Ext.grid.plugin.CellEditing', {
@@ -104,7 +104,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
         this.callParent();
     },
     selModel: {selType: 'cellmodel'},
-    
+
     setColLabels: function (grid) {
         var cols = grid.columns, col, i;
         for (i = 0; i < cols.length; i++) {
@@ -112,7 +112,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
             col.setText(strs.get(this.get_object_type() + '_grid_' + col.dataIndex));
         }
     },
-        
+
     listeners:{
         edit: function (editor, e) {
             this.on_cell_edit(editor, e);
@@ -121,9 +121,9 @@ Ext.define('expenses.view.GeneralTypeGrid', {
           this.setColLabels(grid);
         }
     },
-    
+
     url: "/undefined_url",
-    
+
     on_cell_edit: function(cell_editing, e) {
          /* Make an AJAX request */
          var id = e.record.get('id');
@@ -204,7 +204,7 @@ Ext.define('expenses.view.GeneralTypeGrid', {
          });
          return true;
      },
-     
+
      upload_csv: function ()
      {
           var win = Ext.getCmp('csv_upload_window');
