@@ -61,11 +61,6 @@ class RequestController(webapp2.RequestHandler):
         if not self.checkAccount():
             return;
         req = self.request
-        name = req.get('name')
-        if name == None or name == '':
-            self.invalid_value('name must be specified')
-            return
-        is_active = req.get('active') == 'true'
         id = req.get('id')
         if id == None:
             self.invalid_value('id not specified')
@@ -76,6 +71,14 @@ class RequestController(webapp2.RequestHandler):
             except:
                 self.invalid_value('id')
                 return
+        if (self.request.get('action') == 'delete'):
+            self.delete_instance(id)
+            return
+        name = req.get('name')
+        if name == None or name == '':
+            self.invalid_value('name must be specified')
+            return
+        is_active = req.get('active') == 'true'
         p = None
         if id == 0:
             if self.get_by_name(name) != None:
@@ -114,7 +117,7 @@ class RequestController(webapp2.RequestHandler):
             return
 
     def delete_instance(self, id):
-        i = get_by_id(id)
+        p = self.get_by_id(id)
         if p != None:
             p.key.delete()
             self.response.out.write(json.dumps(({'success': 1, 'id': id})))
@@ -127,8 +130,8 @@ class RequestController(webapp2.RequestHandler):
     def operation_failed(self, msg):
         self.response.out.write(json.dumps(({'success': 0, 'errors': 'Operation failed: ' + msg})))
 
-    def get_by_id(id):
-        for i in this.__class_.query(ancestor=self.account).fetch():
+    def get_by_id(self, id):
+        for i in self.clsRef.query(ancestor=self.account).fetch():
             if i.id == id:
                 return i
         return None
