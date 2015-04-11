@@ -9,13 +9,13 @@ Ext.define('expenses.Application', {
         'Ext.grid.column.CheckColumn',
         'Ext.data.proxy.Rest'
     ],
-    
-    
+
+
     active_account: {name: '', owner: ''},
     activeAccount: function () {
         return active_account;
     },
-    
+
     launch: function ()
     {
         if (accounts.length == 1) {
@@ -35,13 +35,15 @@ Ext.define('expenses.Application', {
 
     models: [
         'ExpenseType',
+        'Method',
         'Person'
     ],
-    
+
     views: [
         'AccountsGrid',
         'ExpensesGrid',
         'ExpenseTypeGrid',
+        'MethodGrid',
         'PersonGrid'
     ],
 
