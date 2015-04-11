@@ -1,7 +1,7 @@
 Ext.define('expenses.Strings', {
     DEF_LANG: 'en-us',
     lang: 'he-il',
-    
+
     get: function (str_id) {
         if (!this.lang)
             this.lang = this.DEF_LANG;
@@ -10,7 +10,7 @@ Ext.define('expenses.Strings', {
             str = Ext.valueFrom(strs[str_id], strs_def[str_id]);
         return str;
     },
-    
+
     strings:
     {
         'en-us':
@@ -36,6 +36,13 @@ Ext.define('expenses.Strings', {
             'person_grid_active': 'Active',
             'person_blank': 'Enter name of person',
             'person_name_missing': 'Name of person is missing',
+            /* Payment Methods */
+            'methods': 'Payment Methods',
+            'add_method': 'Add Payment Method',
+            'method_grid_name': 'Name',
+            'method_grid_active': 'Active',
+            'method_blank': 'Enter name of payment method',
+            'method_name_missing': 'Name of payment method is missing',
             /* Expenses */
             'expenses_list': 'Expenses List',
             'enter_expense': 'Enter Expense',
@@ -86,6 +93,13 @@ Ext.define('expenses.Strings', {
             'person_grid_active': 'פעיל',
             'person_blank': 'הכנס שם',
             'person_name_missing': 'שם לא הוזן',
+            /* Payment Methods */
+            'methods': 'אמצעי תשלום',
+            'add_method': 'הוסף אמצעי תשלום',
+            'method_grid_name': 'שם',
+            'method_grid_active': 'פעיל',
+            'method_blank': 'הכנס שם עבור אמצעי תשלום',
+            'method_name_missing': 'חסר שם עבור אמצעי התשלום',
             /* Expenses */
             'expenses_list': 'רישום הוצאות',
             'enter_expense': 'הכנס הוצאה',
@@ -119,4 +133,3 @@ Ext.define('expenses.Strings', {
     }
 });
 var strs = Ext.create('expenses.Strings');
-
