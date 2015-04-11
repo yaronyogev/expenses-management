@@ -6,13 +6,13 @@ Ext.define('expenses.view.Main', {
         'Ext.layout.container.Border',
         'Ext.form.Label'
     ],
-    
+
     xtype: 'app-main',
 
     layout: {
         type: 'border'
     },
-    
+
     items: [{
         region: 'west',
         xtype: 'panel',
@@ -23,6 +23,11 @@ Ext.define('expenses.view.Main', {
         region: 'center',
         xtype: 'tabpanel',
         items:[
+        {
+            title: strs.get('methods'),
+            xtype: 'methodsgrid',
+            id: "methods-grid"
+        },
         {
             title: strs.get('accounts_for_user'),
             xtype: "accountsgrid",
@@ -36,17 +41,18 @@ Ext.define('expenses.view.Main', {
         {
             title: strs.get('expenses_list'),
             xtype: 'expensesgrid',
-            id: "expenses-grid"            
+            id: "expenses-grid"
         },
         {
             title: strs.get('expense_types'),
             xtype: 'expensetypegrid',
-            id: "expense-type-grid"            
+            id: "expense-type-grid"
         },
         {
             title: strs.get('persons'),
             xtype: 'persongrid',
-            id: "person-grid"            
-        }]
+            id: "person-grid"
+        }
+        ]
     }]
 });
