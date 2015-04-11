@@ -32,6 +32,9 @@ class RequestController(webapp2.RequestHandler):
         self.account = account_key(self.account_name, self.account_owner)
         return True
 
+    def get_object(self, i):
+        return {'id': i.id, 'name': i.name, 'active': i.active}
+
     def get(self):
         logging.info('in RequestController get()')
         if not self.checkAccount():
@@ -46,10 +49,7 @@ class RequestController(webapp2.RequestHandler):
             instances = query.fetch(limit, offset=start_offset)
         list = []
         for i in instances:
-            list.append({ \
-                'id': i.id, \
-                'name': i.name, \
-                'active': i.active})
+            list.append(self.get_object(i))
         self.response.out.write(json.dumps({ \
             'user_name': self.email, \
             'account_name': self.account_name, \
@@ -85,15 +85,17 @@ class RequestController(webapp2.RequestHandler):
                 self.invalid_value(self.objectName + ' exists: ' + name)
                 return
             i = self.clsRef(parent=self.account)
-            i.name = name
-            i.active = is_active
-            # find the largest type ID x for this account, and return new type ID that is x+1
+            # find the largest type ID x for this account,
+            # and return new type ID that is x+1
             q = self.clsRef.query(ancestor=self.account).order(-self.clsRef.id)
             results = q.fetch(1)
             new_id = 1
             for old in results:
                 new_id = old.id + 1
-            i.id = new_id
+            set_value_result = i.set_values(new_id, name, active, req)
+            if set_values_result != True:
+                self.invalid_value(set_values_result)
+                return
             i.put()
             resp = json.dumps(({'success': 1, 'id': new_id}))
             self.response.out.write(resp)
@@ -107,10 +109,14 @@ class RequestController(webapp2.RequestHandler):
                         self.invalid_value('expense type exists: ' + name)
                         return
             if record_to_change == None:
-                self.invalid_value('unable to find ' + self.objectName + ' with id=' + id)
+                self.invalid_value('unable to find ' + self.objectName + \
+                    ' with id=' + id)
                 return
-            record_to_change.name = name
-            record_to_change.active = is_active
+            set_value_result = record_to_change.set_values(id, \
+                name, is_active, req)
+            if set_values_result != True:
+                self.invalid_value(set_values_result)
+                return
             record_to_change.put()
             resp = json.dumps(({'success': 1, 'id': record_to_change.id}))
             self.response.out.write(resp)
