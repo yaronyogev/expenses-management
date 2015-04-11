@@ -2,7 +2,10 @@ Ext.define('expenses.view.GeneralTypeGrid', {
     extend: 'Ext.grid.Panel',
     requires: [
           'Ext.grid.plugin.CellEditing',
-          'Ext.selection.CellModel'
+          'Ext.selection.CellModel',
+          'expenses.view.NameColumn',
+          'expenses.view.ActiveColumn',
+          'expenses.view.ActionColumn'
     ],
     rtl: true,
     object_type: null,
@@ -11,70 +14,9 @@ Ext.define('expenses.view.GeneralTypeGrid', {
     },
     columns:
     [
-        {
-            dataIndex: 'name',
-            text: "undefined",
-            width: 300,
-            rtl: true,
-            field: {
-               xtype: 'textfield',
-               blankText: "undefined",
-               allowBlank: false,
-               listeners: {
-                    validateedit: function (cellediting, e) {
-                         if (!e.field.isValid()) {
-                              e.field.setFocus();
-                              return false;
-                         }
-                         return true;
-                    }
-               },
-               validText: "undefined",
-            }
-        },
-        {
-            dataIndex: 'active',
-            text: "undefined",
-            xtype: 'checkcolumn',
-            listeners: {
-                checkchange: function (cbcol, row, checked) {
-                    this.up('grid').on_active_edit(cbcol, row, checked);
-                }
-            }
-        },
-        {
-            xtype: 'actioncolumn',
-            width: 50,
-            items: [
-               {
-                    icon: 'app/images/delete.png',
-                    tooltip: 'Delete',
-                    handler: function(grid, row) {
-                         var store = grid.getStore();
-                         var rec = store.getAt(row);
-                         var conn = new Ext.data.Connection;
-                         conn.request({
-                              url: store.proxy.url,
-                              params: {
-                                  action: 'delete',
-                                  id: rec.get('id'),
-                                  account_name: accounts[0].name,
-                                  account_owner: accounts[0].owner,
-                                  account_user: user
-                              },
-                              success: function (response) {
-                                  var resp = Ext.decode(response.responseText);
-                                  if (resp.success)
-                                      store.removeAt(row);
-                                  else
-                                      handle_ajax_call_failure(resp, 'Failed to delete');
-                              },
-                              failure: handle_request_failure
-                         });
-                    }
-               }
-            ]
-        }
+        {xtype: 'namecolumn'},
+        {xtype: 'activecolumn'},
+        {xtype: 'actioncolumn'}
     ],
     tbar: [
         {
@@ -89,6 +31,9 @@ Ext.define('expenses.view.GeneralTypeGrid', {
         }
     ],
 
+    constructor: function () {
+        this.callParent();
+    },
     initComponent: function () {
         this.plugins = [
             Ext.create('Ext.grid.plugin.CellEditing', {
