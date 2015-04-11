@@ -9,6 +9,7 @@ from google.appengine.api import users
 
 from models.account import *
 from models.ExpenseType import ExpenseType
+from models.Method import Method
 from models.Person import Person
 
 class UploadHandler(webapp2.RequestHandler):
@@ -33,6 +34,8 @@ class UploadHandler(webapp2.RequestHandler):
         object_type = self.request.get('object_type')
         if (object_type == 'expense_type'):
             new_entry = ExpenseType(parent=account)
+        elif (object_type == 'method'):
+            new_entry = Method(parent=account)
         elif (object_type == 'person'):
             new_entry = Person(parent=account)
         else:
@@ -47,15 +50,25 @@ class UploadHandler(webapp2.RequestHandler):
         logging.info('CSV reader: %s', reader)
         checked_fields = False
         row_count = 0
+        object_type = self.request.get('object_type')
         for row in reader:
             if row_count == 0:
                 next
             if not checked_fields:
                 checked_fields = True
-                if not all(self.field_in_csv(row, f) for f in ['type_id', 'description', 'active']):
+                fields_to_check = ['type_id', 'description', 'active']
+                if object_type == 'method':
+                    fields_to_check.append(['monthly_payment', \
+                                            'payment_deferred_days'])
+                if not all(self.field_in_csv(row, f) for f in fields_to_check):
                     return
             else:
-                type_id, description, active = row
+                if object_type == 'method':
+                    type_id, description, \
+                        monthly_payment, payment_deferred_days, \
+                        active = row
+                else:
+                    type_id, description, active = row
                 is_active = True
                 if int(active) == 0:
                     is_active = False
@@ -67,6 +80,9 @@ class UploadHandler(webapp2.RequestHandler):
                 entry.id = int(type_id)
                 entry.name = desc
                 entry.active = is_active
+                if object_type == 'method':
+                    entry.monthly_payment = monthly_payment
+                    entry.payment_deferred_days = payment_deferred_days
                 entry.put()
                 row_count += 1
         self.response.out.write(json.dumps(({'success': 1, 'msg': str(row_count) + ' rows were imported'})))
@@ -77,9 +93,9 @@ class UploadHandler(webapp2.RequestHandler):
             return True
         self.missing_field(field_name)
         return False
-        
+
     def invalid_value(self, field):
         self.response.out.write(json.dumps(({'success': 0, 'errors': 'Invalid value recieved: ' + field})))
-        
+
     def missing_field(self, field):
         self.response.out.write(json.dumps(({'success': 0, 'errors': 'missing field in CSV file: ' + field})))

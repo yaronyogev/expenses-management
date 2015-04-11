@@ -21,6 +21,17 @@ indexes:
   properties:
   - name: name
 
+- kind: Method
+  ancestor: yes
+  properties:
+  - name: id
+    direction: desc
+
+- kind: Method
+  ancestor: yes
+  properties:
+  - name: name
+
 - kind: Person
   ancestor: yes
   properties:

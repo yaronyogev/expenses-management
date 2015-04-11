@@ -15,6 +15,7 @@ from controllers.UploadHandler import UploadHandler
 from controllers.accountController import AccountHandler
 from controllers.expenseTypesController import *
 from controllers.PersonController import *
+from controllers.MethodController import *
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -61,7 +62,7 @@ class MainPage(webapp2.RequestHandler):
         else:
             accounts_data = []
             for account_user in membership_list:
-                parent_account_key = account_user.key.parent()  
+                parent_account_key = account_user.key.parent()
                 acc = parent_account_key.get()
                 account_data = {'name': acc.name, 'owner': acc.owner, 'user_name': email}
                 accounts_data.append(account_data)
@@ -114,6 +115,7 @@ application = webapp2.WSGIApplication([
     ('/expense_types', ExpenseTypesController),
     ('/expense_types(/\d+)?', ExpenseTypesController),
     ('/persons', PersonController),
-    ('/persons(/\d+)?', PersonController)
+    ('/persons(/\d+)?', PersonController),
+    ('/methods', MethodController),
+    ('/methods(/\d+)?', MethodController)
 ], debug=True)
-
